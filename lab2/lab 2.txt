@@ -1,0 +1,121 @@
+-- 2 exercise
+create table customers
+(
+    id               integer     NOT NULL UNIQUE,
+    full_name        varchar(50) NOT NULL,
+    timestamp        timestamp   NOT NULL,
+    delivery_address text        NOT NULL,
+    primary key (id)
+);
+create table orders
+(
+    code integer NOT NULL UNIQUE,
+    customer_id integer,
+    total_sum double precision NOT NULL check (total_sum > 0),
+    is_paid boolean NOT NULL ,
+    primary key (code),
+    foreign key (customer_id) references customers (id)
+);
+create table products
+(
+    id varchar NOT NULL UNIQUE,
+    name varchar NOT NULL UNIQUE,
+    description text,
+    price double precision NOT NULL check(price > 0),
+    primary key (id)
+);
+create table order_items(
+    order_code integer NOT NULL UNIQUE ,
+    product_id varchar NOT NULL UNIQUE ,
+    quantity integer NOT NULL check(quantity > 0 ),
+    primary key (order_code , product_id),
+    foreign key (order_code) references orders (code),
+    foreign key (product_id) references products (id)
+);
+-- 4 exercise
+insert into customers (id, full_name, timestamp, delivery_address) values (101 , 'Alikhan' , '2002-7-8','almaty');
+insert into customers (id, full_name, timestamp, delivery_address) values (102 , 'Olzhas' , '2002-7-8','almaty');
+insert into customers (id, full_name, timestamp, delivery_address) values (103 , 'Maga' , '2002-7-8','almaty');
+
+insert into orders (code, customer_id, total_sum, is_paid) values (1 , 101 , 5000 , true);
+insert into orders (code, customer_id, total_sum, is_paid) values (2 , 102 , 5000 , true);
+insert into orders (code, customer_id, total_sum, is_paid) values (3 , 103 , 5000 , true)
+
+insert into products(id, name, description, price) values (201 , 'alcohol', 'for brave men' , 5000);
+insert into products(id, name, description, price) values (202 , 'drugs', 'for brave men' , 5000);
+insert into products(id, name, description, price) values (203 , 'cigarretes', 'for brave men' , 5000);
+
+insert into order_items(order_code, product_id, quantity) values (1,201,1);
+insert into order_items(order_code, product_id, quantity) values (2,202,1);
+insert into order_items(order_code, product_id, quantity) values (3,203,1);
+
+
+update products
+set description = 'for mighty men', price = 10000
+where name = 'drugs';
+delete from  order_items where order_code = 3;
+
+-- 3 exercise
+--a
+create table students
+(
+  full_name varchar(50) NOT NULL UNIQUE,
+  age integer NOT NULL,
+  birthdate timestamp NOT NULL,
+  gender varchar NOT NULL,
+  average_grade double precision NOT NULL check (average_grade <= 4),
+  information text NOT NULL,
+  need_dorm boolean NOT NULL,
+  addi_info text ,
+  primary key (full_name)
+);
+--b
+create table instructor
+(
+   full_name varchar(50) NOT NULL UNIQUE,
+   remoteles boolean NOT NULL,
+    primary key (full_name)
+);
+create table lang
+(
+    inst varchar NOT NULL,
+    lang varchar,
+    primary key (inst,lang),
+    foreign key(inst) references instructor(full_name)
+);
+create table work
+(
+    inst varchar NOT NULL,
+    schoolwork text NOT NULL,
+    primary key (inst,schoolwork),
+    foreign key(inst) references instructor(full_name)
+);
+create table lesson
+(
+    title varchar NOT NULL ,
+    inst varchar NOT NULL ,
+    room integer NOT NULL ,
+    student varchar NOT NULL,
+    primary key (title,inst,student),
+    foreign key (inst) references instructor(full_name),
+    foreign key (student) references students(full_name)
+);
+--1 exercise
+-- ddl
+create table lol();
+alter table lol
+add lola varchar(50);
+drop table lol;
+create table lol(
+    id integer,
+    name varchar,
+    occup varchar
+);
+-- dml
+insert into lol values (1,'Al','god');
+update lol
+set occup = 'Devil'
+where id = 1;
+select * from lol;
+delete from lol where occup = 'Devil';
+
