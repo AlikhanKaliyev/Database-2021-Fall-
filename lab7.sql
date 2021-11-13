@@ -61,7 +61,7 @@ $$
         where account_id = 'RS88012';
         select balance into balance_ from accounts where account_id = 'RS88012';
         select "limit" into limit_  from accounts where account_id = 'RS88012';
-        if balance_ < limit_ then
+        if balance_ > limit_ then
             update transactions set status='commited' where transactions.id=3;
         else
             commit;
