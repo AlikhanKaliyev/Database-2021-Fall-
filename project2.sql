@@ -218,3 +218,10 @@ select number_of_month, datetime from (select extract(month from sale.date) as n
 where type_of_car='C' group by number_of_month) as lol
 where datetime = (select extract(month from sale.date) from sale inner join customer on sale.customer_id = customer.customer_id inner join vehicle on customer.customer_id = vehicle.customer_id inner join option on vehicle.option_id = option.option_id inner join car_model on car_model.model_name = option.model_name
 where type_of_car='C');
+--6 query
+select dealer.dealer_id as dealer_avg, extract(year from sale.date) as sale_date ,extract(year from produce.date) as produce_date from dealer inner join sale on sale.dealer_id = dealer.dealer_id inner join customer on customer.customer_id= sale.customer_id inner join vehicle on vehicle.customer_id = customer.customer_id inner join produce on vehicle.VIN = produce.VIN;
+
+select dealer_avg , avg((sale_date-produce_date)) as avg_time from ( select dealer.dealer_id as dealer_avg, extract(year from sale.date) as sale_date ,extract(year from produce.date) as produce_date from dealer inner join sale on sale.dealer_id = dealer.dealer_id inner join customer on customer.customer_id= sale.customer_id inner join vehicle on vehicle.customer_id = customer.customer_id inner join produce on vehicle.VIN = produce.VIN) as kek
+group by dealer_avg
+order by avg_time desc
+limit 1;
